@@ -1,49 +1,353 @@
-/* Quiz Section CSS */
-        .quiz-container {
-            background: #f1f8e9;
-            padding: 20px;
-            border-radius: 10px;
-            border: 2px solid #c5e1a5;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Respiration & Exchange of Gases | Pro Portfolio</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --primary-glow: #0ea5e9;
+            --secondary-glow: #10b981;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
         }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 15% 50%, rgba(14, 165, 233, 0.1), transparent 25%),
+                              radial-gradient(circle at 85% 30%, rgba(16, 185, 129, 0.1), transparent 25%);
+        }
+
+        /* Animated Header */
+        header {
+            text-align: center;
+            padding: 15vh 20px 10vh;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--primary-glow), var(--secondary-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
+
+        p.subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px 50px;
+        }
+
+        /* Glassmorphism Cards */
+        .card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transform: translateY(50px);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .card:hover {
+            border-color: rgba(14, 165, 233, 0.4);
+            box-shadow: 0 10px 40px rgba(14, 165, 233, 0.15);
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2::before {
+            content: '';
+            display: block;
+            width: 12px;
+            height: 12px;
+            background: var(--primary-glow);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        ul li::before {
+            content: '▹';
+            position: absolute;
+            left: 0;
+            color: var(--secondary-glow);
+            font-weight: bold;
+        }
+
+        /* Graph Container */
+        .graph-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        /* Modern Quiz Section */
+        .quiz-container {
+            margin-top: 20px;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-weight: 600;
+            color: var(--primary-glow);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #334155;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-glow), var(--secondary-glow));
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        h3#question-text {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
         .option-btn {
             display: block;
             width: 100%;
-            background: white;
-            border: 1px solid #aed581;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
+            background: #2dd4bf15;
+            border: 1px solid #2dd4bf30;
+            color: var(--text-main);
+            padding: 16px 20px;
+            margin-bottom: 12px;
+            border-radius: 12px;
             cursor: pointer;
             text-align: left;
-            font-size: 1rem;
-            transition: 0.3s;
+            font-size: 1.05rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
+
         .option-btn:hover {
-            background: #dcedc8;
+            background: rgba(14, 165, 233, 0.2);
+            border-color: var(--primary-glow);
+            transform: translateX(5px);
         }
-        .correct { background: #81c784 !important; color: white; }
-        .wrong { background: #e57373 !important; color: white; }
+
+        .correct {
+            background: rgba(16, 185, 129, 0.2) !important;
+            border-color: var(--secondary-glow) !important;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+        }
+
+        .wrong {
+            background: rgba(239, 68, 68, 0.2) !important;
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+        }
+
         #next-btn {
-            background: #00838f;
+            background: linear-gradient(135deg, var(--primary-glow), #0284c7);
             color: white;
             border: none;
-            padding: 10px 20px;
-            font-size: 1rem;
-            border-radius: 5px;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 8px;
             cursor: pointer;
             display: none;
-            margin-top: 15px;
+            margin-top: 25px;
+            margin-left: auto;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        #next-btn:hover { background: #006064; }<div class="card">
-            <h2>Test Your Knowledge (50 MCQs)</h2>
-            <div class="quiz-container">
-                <h3 id="question-text">Loading question...</h3>
-                <div id="options-container">
-                    </div>
-                <button id="next-btn" onclick="nextQuestion()">Next Question</button>
-                <p id="score-text" style="font-weight: bold; margin-top: 15px; color: #00838f;"></p>
+
+        #next-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(14, 165, 233, 0.4);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Human Physiology</h1>
+        <p class="subtitle">Interactive Notes & MCQs: Breathing and Exchange of Gases</p>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>Mechanism of Breathing</h2>
+            <ul>
+                <li>Breathing involves two stages: inspiration during which atmospheric air is drawn in and expiration by which the alveolar air is released out.</li>
+                <li>The movement of air into and out of the lungs is carried out by creating a pressure gradient between the lungs and the atmosphere.</li>
+                <li>Inspiration is initiated by the contraction of diaphragm which increases the volume of thoracic chamber.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Exchange of Gases</h2>
+            <ul>
+                <li>Alveoli are the primary sites of exchange of gases.</li>
+                <li>O2 and CO2 are exchanged by simple diffusion mainly based on pressure/concentration gradient.</li>
+                <li>The diffusion membrane is made up of three major layers: the thin squamous epithelium of alveoli, the endothelium of alveolar capillaries and the basement substance.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Transport of Gases</h2>
+            <ul>
+                <li>About 97 per cent of oxygen is transported by RBCs in the blood.</li>
+                <li>Nearly 70 per cent of carbon dioxide is transported as bicarbonate, while 20-25 per cent is carried by RBCs.</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h2>Oxygen Dissociation Curve</h2>
+            <p style="color: var(--text-muted); margin-bottom: 15px;">A sigmoid curve showing percentage saturation of haemoglobin with oxygen at different partial pressures.</p>
+            <div class="graph-container">
+                <canvas id="oxyChart"></canvas>
             </div>
-        </div>// 50 MCQs Data based on NCERT PDF
+        </div>
+
+        <div class="card">
+            <h2>Ultimate MCQ Practice</h2>
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <span id="q-counter">Question 1/50</span>
+                    <span id="score-text">Score: 0</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-bar"></div>
+                </div>
+                
+                <h3 id="question-text">Loading question...</h3>
+                <div id="options-container"></div>
+                <button id="next-btn" onclick="nextQuestion()">Next Question ➔</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- SCROLL ANIMATION ---
+        document.addEventListener("DOMContentLoaded", function() {
+            const cards = document.querySelectorAll('.card');
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            cards.forEach(card => observer.observe(card));
+        });
+
+        // --- CHART JS ---
+        const ctx = document.getElementById('oxyChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [0, 20, 40, 60, 80, 100],
+                datasets: [{
+                    label: '% Saturation of Haemoglobin',
+                    data: [0, 30, 75, 90, 97, 100],
+                    borderColor: '#0ea5e9',
+                    backgroundColor: 'rgba(14, 165, 233, 0.1)',
+                    borderWidth: 4,
+                    fill: true,
+                    tension: 0.4,
+                    pointBackgroundColor: '#10b981',
+                    pointRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { labels: { color: '#334155', font: { family: 'Poppins' } } }
+                },
+                scales: {
+                    x: {
+                        title: { display: true, text: 'Partial pressure of oxygen (mm Hg)', color: '#64748b' },
+                        ticks: { color: '#64748b' }
+                    },
+                    y: {
+                        title: { display: true, text: '% Saturation', color: '#64748b' },
+                        min: 0, max: 100,
+                        ticks: { color: '#64748b' }
+                    }
+                }
+            }
+        });
+
+        // --- QUIZ JS ---
         const quizData = [
             { q: "1. The process of exchange of O2 from the atmosphere with CO2 produced by the cells is called?", options: ["Cellular respiration", "Breathing", "Digestion", "Circulation"], ans: 1 },
             { q: "2. Lower invertebrates like sponges and coelenterates exchange gases by?", options: ["Gills", "Lungs", "Simple diffusion", "Tracheal tubes"], ans: 2 },
@@ -88,7 +392,7 @@
             { q: "41. Difficulty in breathing causing wheezing due to inflammation of bronchi is?", options: ["Emphysema", "Asthma", "Fibrosis", "Tuberculosis"], ans: 1 },
             { q: "42. Emphysema is a chronic disorder where?", options: ["Bronchi are inflamed", "Alveolar walls are damaged", "Blood vessels rupture", "Pleural fluid increases"], ans: 1 },
             { q: "43. One of the major causes of Emphysema is?", options: ["Bacterial infection", "Cigarette smoking", "Dust", "Viral infection"], ans: 1 },
-            { q: "44. Occupational respiratory disorders often lead to?", options: ["Asthma", "Fibrosis (proliferation of fibrous tissues)", "Anemia", "Jaundice"], ans: 1 },
+            { q: "44. Occupational respiratory disorders often lead to?", options: ["Asthma", "Fibrosis", "Anemia", "Jaundice"], ans: 1 },
             { q: "45. Total Lung Capacity (TLC) includes?", options: ["RV + ERV + TV + IRV", "TV + IRV", "ERV + RV", "TV + ERV"], ans: 0 },
             { q: "46. Inspiratory Capacity (IC) is?", options: ["TV + ERV", "TV + IRV", "ERV + RV", "VC + RV"], ans: 1 },
             { q: "47. Expiratory Capacity (EC) is?", options: ["TV + IRV", "TV + ERV", "ERV + RV", "TLC - RV"], ans: 1 },
@@ -104,20 +408,27 @@
         const optionsContainer = document.getElementById("options-container");
         const nextBtn = document.getElementById("next-btn");
         const scoreText = document.getElementById("score-text");
+        const qCounter = document.getElementById("q-counter");
+        const progressBar = document.getElementById("progress-bar");
 
         function loadQuestion() {
             nextBtn.style.display = "none";
             optionsContainer.innerHTML = "";
             
+            // Update Progress Bar
+            const progress = ((currentQues) / quizData.length) * 100;
+            progressBar.style.width = `${progress}%`;
+
             if(currentQues >= quizData.length) {
-                quesText.innerText = "Quiz Completed! 🎉";
-                scoreText.innerText = `Final Score: ${userScore} out of ${quizData.length}`;
+                quesText.innerHTML = `🎉 Quiz Completed!<br><br>Your Final Score: ${userScore} / ${quizData.length}`;
+                qCounter.innerText = "Completed";
                 return;
             }
 
             let current = quizData[currentQues];
             quesText.innerText = current.q;
-            scoreText.innerText = `Question ${currentQues + 1} of ${quizData.length} | Score: ${userScore}`;
+            qCounter.innerText = `Question ${currentQues + 1}/${quizData.length}`;
+            scoreText.innerText = `Score: ${userScore}`;
 
             current.options.forEach((opt, index) => {
                 let btn = document.createElement("button");
@@ -130,7 +441,7 @@
 
         function checkAnswer(btn, selected, correct) {
             let allBtns = optionsContainer.querySelectorAll(".option-btn");
-            allBtns.forEach(b => b.onclick = null); // Disable clicks after answering
+            allBtns.forEach(b => b.onclick = null); 
             
             if(selected === correct) {
                 btn.classList.add("correct");
@@ -139,7 +450,7 @@
                 btn.classList.add("wrong");
                 allBtns[correct].classList.add("correct");
             }
-            scoreText.innerText = `Question ${currentQues + 1} of ${quizData.length} | Score: ${userScore}`;
+            scoreText.innerText = `Score: ${userScore}`;
             nextBtn.style.display = "block";
         }
 
@@ -148,5 +459,7 @@
             loadQuestion();
         }
 
-        // Quiz Load Start
-        setTimeout(loadQuestion, 500); // Slight delay to ensure DOM is ready
+        setTimeout(loadQuestion, 300);
+    </script>
+</body>
+</html>
